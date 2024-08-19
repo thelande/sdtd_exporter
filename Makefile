@@ -19,10 +19,10 @@ PROMTOOL         ?= $(FIRST_GOPATH)/bin/promtool
 DOCKER_IMAGE_NAME       ?= $(BIN)
 MACH                    ?= $(shell uname -m)
 
-ifeq($(MACH),x86_64)
+ifeq ($(MACH),x86_64)
 ARCH := amd64
 else
-ifeq($(MACH),aarch64)
+ifeq ($(MACH),aarch64)
 ARCH := arm64
 endif
 endif
