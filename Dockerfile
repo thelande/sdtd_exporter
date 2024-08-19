@@ -19,6 +19,6 @@ WORKDIR /app
 
 COPY --from=builder /src/output/sdtd_exporter .
 
-EXPOSE 9810
+EXPOSE 9816
 
 ENTRYPOINT ["/app/sdtd_exporter"]
