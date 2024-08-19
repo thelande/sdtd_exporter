@@ -2,11 +2,11 @@ go:
   version: 1.19.0
   cgo: false
 repository:
-  path: github.com/thelande/go_exporter_tmpl
+  path: github.com/thelande/sdtd_exporter
 build:
   prefix: .
   binaries:
-    - name: go_exporter_tmpl
+    - name: sdtd_exporter
   flags: -a -tags 'netgo osusergo static_build'
   ldflags: |
     -s

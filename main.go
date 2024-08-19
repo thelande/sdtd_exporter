@@ -23,7 +23,7 @@ import (
 	kingpin "github.com/alecthomas/kingpin/v2"
 	"github.com/go-kit/log"
 	"github.com/go-kit/log/level"
-	"github.com/thelande/go_exporter_tmpl/pkg/collector"
+	"github.com/thelande/sdtd_exporter/pkg/collector"
 
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
@@ -35,7 +35,7 @@ import (
 )
 
 const (
-	exporterName  = "go_exporter_tmpl"
+	exporterName  = "sdtd_exporter"
 	exporterTitle = "Go Exporter Template"
 )
 

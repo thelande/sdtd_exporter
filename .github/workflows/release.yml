@@ -37,7 +37,7 @@ jobs:
         context: .
         push: true
         platforms: linux/amd64,linux/arm64,linux/arm
-        tags: thelande/go_exporter_tmpl:${{ github.ref_name }},thelande/go_exporter_tmpl:latest
+        tags: thelande/sdtd_exporter:${{ github.ref_name }},thelande/sdtd_exporter:latest
 
   build_linux:
     runs-on: ubuntu-latest
@@ -51,15 +51,15 @@ jobs:
         make crossbuild
         TAG_NAME="${GITHUB_REF##*/v}"
         for arch in amd64 arm64; do
-          mv output/$arch/go_exporter_tmpl output/go_exporter_tmpl-${TAG_NAME}-linux.${arch}
+          mv output/$arch/sdtd_exporter output/sdtd_exporter-${TAG_NAME}-linux.${arch}
         done
       shell: bash
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: go_exporter_tmpl_binaries
-        path: output/go_exporter_tmpl-*
+        name: sdtd_exporter_binaries
+        path: output/sdtd_exporter-*
 
     - name: Release
       if: startsWith(github.ref, 'refs/tags/')
@@ -67,7 +67,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         TAG_NAME="${GITHUB_REF##*/}"
-        for i in output/go_exporter_tmpl-*; do
+        for i in output/sdtd_exporter-*; do
           gh release upload $TAG_NAME $i
         done
 
@@ -108,17 +108,17 @@ jobs:
           make crossbuild
           # '+' symbols are invalid characters in image tags
           (Get-Content -Path VERSION) -replace '\+', '_' | Set-Content -Path VERSION
-          
+
           # GH requires all files to have different names, so add version/arch to differentiate
           foreach($Arch in "amd64", "arm64") {
-            Move-Item output\$Arch\go_exporter_tmpl.exe output\go_exporter_tmpl-$Version-$Arch.exe
+            Move-Item output\$Arch\sdtd_exporter.exe output\sdtd_exporter-$Version-$Arch.exe
           }
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: go_exporter_tmpl_binaries
-          path: output\go_exporter_tmpl-*.exe
+          name: sdtd_exporter_binaries
+          path: output\sdtd_exporter-*.exe
 
       - name: Release
         if: startsWith(github.ref, 'refs/tags/')
@@ -126,4 +126,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           $TagName = $env:GITHUB_REF -replace 'refs/tags/', ''
-          Get-ChildItem -Path output\* -Include @('go_exporter_tmpl*.exe', 'sha256sums.txt') | Foreach-Object {gh release upload $TagName $_}
+          Get-ChildItem -Path output\* -Include @('sdtd_exporter*.exe', 'sha256sums.txt') | Foreach-Object {gh release upload $TagName $_}

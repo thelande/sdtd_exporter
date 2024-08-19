@@ -1,4 +1,4 @@
-module github.com/thelande/go_exporter_tmpl
+module github.com/thelande/sdtd_exporter
 
 go 1.21
 
