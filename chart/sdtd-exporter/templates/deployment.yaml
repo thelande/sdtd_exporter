@@ -53,7 +53,7 @@ spec:
               value: {{ required "apiUrl must be provided" .Values.apiUrl | quote }}
             - name: SDTD_TOKEN_NAME
               {{- if .Values.auth.existingSecret }}
-              fromValue:
+              valueFrom:
                 secretKeyRef:
                   name: {{ .Values.auth.existingSecret }}
                   key: tokenName
@@ -62,7 +62,7 @@ spec:
               {{- end }}
             - name: SDTD_TOKEN_SECRET
               {{- if .Values.auth.existingSecret }}
-              fromValue:
+              valueFrom:
                 secretKeyRef:
                   name: {{ .Values.auth.existingSecret }}
                   key: tokenSecret
