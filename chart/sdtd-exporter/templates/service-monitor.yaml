@@ -2,13 +2,13 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: {{ include "sdtd_exporter.fullname" . }}
+  name: {{ include "sdtd-exporter.fullname" . }}
   labels:
-    {{- include "sdtd_exporter.labels" . | nindent 4 }}
+    {{- include "sdtd-exporter.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      {{- include "sdtd_exporter.selectorLabels" . | nindent 6 }}
+      {{- include "sdtd-exporter.selectorLabels" . | nindent 6 }}
   namespaceSelector:
     matchNames:
       - {{ .Release.Namespace }}
