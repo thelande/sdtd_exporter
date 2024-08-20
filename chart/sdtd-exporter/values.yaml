@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: thelande/sdtd-exporter
+  repository: thelande/sdtd_exporter
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
