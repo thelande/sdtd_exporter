@@ -1,4 +1,4 @@
-FROM --platform=${BUILDPLATFORM} golang:1.22-alpine AS builder
+FROM --platform=${BUILDPLATFORM} golang:1.24-alpine AS builder
 LABEL maintainer="Tom Helander <thomas.helander@gmail.com>"
 
 RUN apk add make curl git
@@ -12,7 +12,7 @@ COPY . .
 ARG TARGETOS TARGETARCH
 RUN make GOOS=$TARGETOS GOARCH=$TARGETARCH build
 
-FROM alpine:3.18.4
+FROM alpine:3.12.2
 LABEL maintainer="Tom Helander <thomas.helander@gmail.com>"
 
 WORKDIR /app
