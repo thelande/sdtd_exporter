@@ -33,7 +33,7 @@ jobs:
         context: .
         push: false
         platforms: linux/amd64,linux/arm64,linux/arm
-        tags: thelande/sdtd_exporter:${{ github.ref_name }}
+        tags: thelande/sdtd_exporter
 
   build_linux:
     name: Build Linux Binaries
@@ -44,12 +44,7 @@ jobs:
       with:
         go-version: '^1.24.2'
     - name: Build the binaries
-      run: |
-        make crossbuild
-        TAG_NAME="${GITHUB_REF##*/v}"
-        for arch in amd64 arm64; do
-          mv output/$arch/sdtd_exporter output/sdtd_exporter-${TAG_NAME}-linux.${arch}
-        done
+      run: make crossbuild
       shell: bash
 
   build_windows:
