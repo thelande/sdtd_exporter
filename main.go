@@ -97,7 +97,7 @@ func main() {
 
 	landingConfig := web.LandingConfig{
 		Name:        exporterTitle,
-		Description: "Prometheus go-based Exporter",
+		Description: "Prometheus exporter for the 7 Days to Die server.",
 		Version:     version.Info(),
 		Links: []web.LandingLinks{
 			{
@@ -105,6 +105,7 @@ func main() {
 				Text:    "Metrics",
 			},
 		},
+		Profiling: "false",
 	}
 	landingPage, err := web.NewLandingPage(landingConfig)
 	if err != nil {
