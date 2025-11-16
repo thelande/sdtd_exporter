@@ -1,5 +1,5 @@
 /*
-Copyright 2024 Thomas Helander
+Copyright 2024-2025 Thomas Helander
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -37,7 +37,7 @@ import (
 
 const (
 	exporterName  = "sdtd_exporter"
-	exporterTitle = "Go Exporter Template"
+	exporterTitle = "7 Days to Die Server Exporter"
 )
 
 var (

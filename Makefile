@@ -12,7 +12,7 @@ include Makefile.common
 
 BIN ?= sdtd_exporter
 
-PROMTOOL_VERSION ?= 2.51.0
+PROMTOOL_VERSION ?= 3.7.3
 PROMTOOL_URL     ?= https://github.com/prometheus/prometheus/releases/download/v$(PROMTOOL_VERSION)/prometheus-$(PROMTOOL_VERSION).$(GO_BUILD_PLATFORM).tar.gz
 PROMTOOL         ?= $(FIRST_GOPATH)/bin/promtool
 
