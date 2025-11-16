@@ -6,10 +6,34 @@ A [Prometheus](https://prometheus.io) exporter for exposing metrics from the
 This README does not cover how to set up a 7 Days to Die server. For a good guide,
 please take a look at the [CSMM server cookbook](https://docs.csmm.app/en/7D2D/).
 
-## Configuration
+## Required Server Configuration
 
-The exporter uses command line flags and environment variables for configuration.
-See the [Running](#running) section for details.
+You must enable the web dashboard for your server to use this exporter and generate an access
+token.
+
+### Enable the web dashboard
+
+1. Open your `serverconfig.xml` file in a text editor. For Steam installs, this file will be under `steamapps\common\7 Days to Die Dedicated Server`.
+
+2. Change the `WebDashboardEnabled` property to `true`.
+
+3. Save the file and (re)start your server.
+
+### Create an access token
+
+1. After your server/game is running, open the console.
+
+2. Create a web token using the `webtokens add` command:
+
+   > [!NOTE]
+   > Replace `<secret value>` with a password or secret token.
+
+   ```console
+   webtokens add sdtd_exporter <secret value> 2000
+   ```
+
+3. Use the name `sdtd_exporter` and your chosen secret for the `SDTD_TOKEN_NAME` and
+   `SDTD_TOKEN_SECRET` environment variables below.
 
 ## Running
 
@@ -46,11 +70,21 @@ Flags:
 ```
 
 You will likely need to specify the `--server.url` value as well as the `SDTD_TOKEN_NAME` and `SDTD_TOKEN_SECRET`
-environment variables for the values unique to your server:
+environment variables for the values unique to your server. These are the same values you set in
+the [Create an access token](#create-an-access-token) section.
 
 ```console
-SDTD_TOKEN_NAME="test" SDTD_TOKEN_SECRET="aSecret" ./sdtd_exporter --server.url=http://1.2.3.4:8080
+SDTD_TOKEN_NAME="sdtd_exporter" SDTD_TOKEN_SECRET="<secret value>" \
+  ./sdtd_exporter --server.url=http://1.2.3.4:8080
 ```
+
+> [!NOTE]
+> On Windows the command will be:
+> ```console
+> $Env:SDTD_TOKEN_NAME = "sdtd_exporter"
+> $Env:SDTD_TOKEN_SECRET = "<secret value>"
+> .\sdtd_exporter --server.url=http://1.2.3.4:8080
+> ```
 
 ## Docker
 
