@@ -54,8 +54,8 @@ SDTD_TOKEN_NAME="test" SDTD_TOKEN_SECRET="aSecret" ./sdtd_exporter --server.url=
 
 ## Docker
 
-A Docker image of the exporter is available
-[here](https://hub.docker.com/r/thelande/sdtd_exporter) and takes the same
+A Docker image of the exporter is available at
+[thelande/sdtd_exporter](https://hub.docker.com/r/thelande/sdtd_exporter) and takes the same
 arguments as the command.
 
 You should place your environment variables in an environment file named `.env`:
