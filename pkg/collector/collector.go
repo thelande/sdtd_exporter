@@ -1,8 +1,8 @@
 package collector
 
 import (
-	"github.com/go-kit/log"
-	"github.com/go-kit/log/level"
+	"log/slog"
+
 	"github.com/prometheus/client_golang/prometheus"
 
 	sdtdclient "github.com/thelande/sdtd_client/pkg/sdtd_client"
@@ -27,7 +27,7 @@ var (
 
 type Collector struct {
 	Client *sdtdclient.SDTDClient
-	Logger *log.Logger
+	Logger *slog.Logger
 }
 
 func (c Collector) Describe(ch chan<- *prometheus.Desc) {
@@ -51,8 +51,9 @@ func (c Collector) SetUp(ch chan<- prometheus.Metric, up bool) {
 }
 
 func (c Collector) Collect(ch chan<- prometheus.Metric) {
+	log := *c.Logger
 	if err := c.Client.Connect(); err != nil {
-		level.Warn(*c.Logger).Log("msg", "Failed to connect to API server", "err", err)
+		log.Warn("Failed to connect to API server", "err", err)
 		c.SetUp(ch, false)
 		return
 	}
@@ -61,7 +62,7 @@ func (c Collector) Collect(ch chan<- prometheus.Metric) {
 
 	stats, err := c.Client.GetServerStats()
 	if err != nil {
-		level.Warn(*c.Logger).Log("msg", "Failed to get server stats", "err", err)
+		log.Warn("Failed to get server stats", "err", err)
 	} else {
 		ch <- prometheus.MustNewConstMetric(playersDesc, prometheus.GaugeValue, float64(stats.Data.Players))
 		ch <- prometheus.MustNewConstMetric(zombiesDesc, prometheus.GaugeValue, float64(stats.Data.Hostiles))

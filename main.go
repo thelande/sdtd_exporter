@@ -21,18 +21,17 @@ import (
 	"os"
 
 	kingpin "github.com/alecthomas/kingpin/v2"
-	"github.com/go-kit/log"
-	"github.com/go-kit/log/level"
 	sdtdclient "github.com/thelande/sdtd_client/pkg/sdtd_client"
 	"github.com/thelande/sdtd_exporter/pkg/collector"
 
 	"github.com/prometheus/client_golang/prometheus"
+	versioncollector "github.com/prometheus/client_golang/prometheus/collectors/version"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
-	"github.com/prometheus/common/promlog"
-	"github.com/prometheus/common/promlog/flag"
+	"github.com/prometheus/common/promslog"
+	"github.com/prometheus/common/promslog/flag"
 	"github.com/prometheus/common/version"
 	"github.com/prometheus/exporter-toolkit/web"
-	webflag "github.com/prometheus/exporter-toolkit/web/kingpinflag"
+	"github.com/prometheus/exporter-toolkit/web/kingpinflag"
 )
 
 const (
@@ -60,21 +59,20 @@ var (
 		"web.telemetry-path",
 		"Path under which to expose metrics.",
 	).Default("/metrics").String()
-	webConfig = webflag.AddFlags(kingpin.CommandLine, ":9816")
-	logger    log.Logger
+	toolkitFlags = kingpinflag.AddFlags(kingpin.CommandLine, ":9816")
 )
 
 func main() {
-	promlogConfig := &promlog.Config{}
-	flag.AddFlags(kingpin.CommandLine, promlogConfig)
+	promslogConfig := &promslog.Config{}
+	flag.AddFlags(kingpin.CommandLine, promslogConfig)
 	kingpin.CommandLine.UsageWriter(os.Stdout)
 	kingpin.HelpFlag.Short('h')
 	kingpin.Version(version.Print(exporterName))
 	kingpin.Parse()
 
-	logger = promlog.New(promlogConfig)
-	level.Info(logger).Log("msg", fmt.Sprintf("Starting %s", exporterName), "version", version.Info())
-	level.Info(logger).Log("msg", "Build context", "build_context", version.BuildContext())
+	logger := promslog.New(promslogConfig)
+	logger.Info(fmt.Sprintf("Starting %s", exporterName), "version", version.Info())
+	logger.Info("Build context", "build_context", version.BuildContext())
 
 	client, err := sdtdclient.NewSDTDClient(
 		*apiUrl,
@@ -83,22 +81,23 @@ func main() {
 			TokenSecret: *tokenSecret,
 		},
 		true,
-		&logger,
+		logger,
 	)
 	if err != nil {
 		panic(err)
 	}
-	collector := collector.Collector{Client: client, Logger: &logger}
+	collector := collector.Collector{Client: client, Logger: logger}
 
 	// Uncomment the following two lines and comment out prometheus.MustRegister(collector)
 	// to exclude the go metrics. Make sure to swap line 88 and 89 as well.
 	registry := prometheus.NewRegistry()
+	registry.MustRegister(versioncollector.NewCollector("sdtd_exporter"))
 	registry.MustRegister(collector)
 	// prometheus.MustRegister(collector)
 
 	landingConfig := web.LandingConfig{
 		Name:        exporterTitle,
-		Description: "Prometheus go-based Exporter",
+		Description: "Prometheus exporter for the 7 Days to Die server.",
 		Version:     version.Info(),
 		Links: []web.LandingLinks{
 			{
@@ -106,10 +105,11 @@ func main() {
 				Text:    "Metrics",
 			},
 		},
+		Profiling: "false",
 	}
 	landingPage, err := web.NewLandingPage(landingConfig)
 	if err != nil {
-		level.Error(logger).Log("err", err)
+		logger.Error(fmt.Sprintf("%s", err))
 		os.Exit(1)
 	}
 
@@ -118,8 +118,8 @@ func main() {
 	http.Handle("/", landingPage)
 
 	srv := &http.Server{}
-	if err := web.ListenAndServe(srv, webConfig, logger); err != nil {
-		level.Error(logger).Log("msg", "HTTP listener stopped", "error", err)
+	if err := web.ListenAndServe(srv, toolkitFlags, logger); err != nil {
+		logger.Error("HTTP listener stopped", "error", fmt.Sprintf("%s", err))
 		os.Exit(1)
 	}
 }
