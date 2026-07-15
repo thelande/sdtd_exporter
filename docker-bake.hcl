@@ -1,10 +1,10 @@
 DATE = formatdate("YYYY.MM.DD", timestamp())
-APP = "7dtd"
+APP = "sdtd_exporter"
 SOURCE = "https://github.com/thelande/sdtd_exporter"
 variable "GIT_SHA" {}
 
 variable "VERSION" {
-  default = "0.2.2"
+  default = "0.2.4"
 }
 
 group "default" {
