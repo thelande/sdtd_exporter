@@ -1,7 +1,7 @@
 go:
   # Whenever the Go version is updated here,
   # .github/workflows and Dockerfile should also be updated.
-  version: 1.26.0
+  version: 1.25.0
   cgo: false
 repository:
   path: github.com/thelande/sdtd_exporter
