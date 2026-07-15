@@ -4,7 +4,7 @@ SOURCE = "https://github.com/thelande/sdtd_exporter"
 variable "GIT_SHA" {}
 
 variable "VERSION" {
-  default = "0.2.4"
+  default = "0.2.5"
 }
 
 group "default" {
