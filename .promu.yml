@@ -1,7 +1,7 @@
 go:
   # Whenever the Go version is updated here,
   # .github/workflows and Dockerfile should also be updated.
-  version: 1.24.0
+  version: 1.26.0
   cgo: false
 repository:
   path: github.com/thelande/sdtd_exporter
@@ -9,7 +9,7 @@ build:
   prefix: .
   binaries:
     - name: sdtd_exporter
-  flags: -a -tags netgo
+  flags: -a -tags 'netgo static_build'
   ldflags: |
     -s
     -X github.com/prometheus/common/version.Version={{.Version}}
