@@ -1,0 +1,12 @@
+services:
+  sdtd-exporter:
+    image: thelande/sdtd_exporter:rolling
+    container_name: sdtd-exporter
+    restart: on-failure
+    ports:
+      - 9816:9816
+    command:
+      - --server.url=${SDTD_SERVER_URL}
+    environment:
+      SDTD_TOKEN_NAME: ${SDTD_TOKEN_NAME}
+      SDTD_TOKEN_SECRET: ${SDTD_TOKEN_SECRET}

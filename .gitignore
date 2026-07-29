@@ -22,3 +22,5 @@ go.work
 
 # Output directory
 output/
+
+.env

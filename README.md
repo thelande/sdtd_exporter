@@ -23,10 +23,7 @@ token.
 
 1. After your server/game is running, open the console.
 
-2. Create a web token using the `webtokens add` command:
-
-   > [!NOTE]
-   > Replace `<secret value>` with a password or secret token.
+2. Create a web token using the `webtokens add` command (replace `<secret value>` with a password or secret token of your choosing):
 
    ```console
    webtokens add sdtd_exporter <secret value> 2000
@@ -102,4 +99,14 @@ SDTD_TOKEN_SECRET="<your token secret>"
 ```console
 docker run -d -p 9816:9816 --env-file=.env \
   thelande/sdtd_exporter --server.url="<your server URL>"
+```
+
+### Docker Compose
+
+A `docker-compose.yml` file is provided in this repository. Create a copy of `.env.example` named
+`.env` and update the values with your server URL, token name, and token secret. Then launch the
+stack:
+
+```console
+docker-compose up -d
 ```
