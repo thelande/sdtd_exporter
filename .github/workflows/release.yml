@@ -58,7 +58,7 @@ jobs:
     - name: Upload Artifacts
       uses: actions/upload-artifact@v7
       env:
-        GITHUB_TOKEN: ${{ github.token }}
+        GH_TOKEN: ${{ github.token }}
       with:
         name: sdtd_exporter_binaries_linux
         path: output/sdtd_exporter-*
@@ -117,7 +117,7 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v7
         env:
-          GITHUB_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ github.token }}
         with:
           name: sdtd_exporter_binaries_windows
           path: output\sdtd_exporter-*.exe
@@ -138,7 +138,7 @@ jobs:
       - name: Download Artifacts
         uses: actions/download-artifact@v8
         env:
-          GITHUB_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ github.token }}
         with:
           path: artifacts
           merge-multiple: true
