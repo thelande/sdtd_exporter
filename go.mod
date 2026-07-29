@@ -7,7 +7,7 @@ require (
 	github.com/prometheus/client_golang v1.24.1
 	github.com/prometheus/common v0.70.1
 	github.com/prometheus/exporter-toolkit v0.17.1
-	github.com/thelande/sdtd_client v0.2.3
+	github.com/thelande/sdtd_client v0.2.5
 )
 
 require (
